@@ -1,6 +1,7 @@
 FROM justmoon/wix
 
 ENV LANG=C.UTF-8
+USER root
 RUN apt-get update && \
     apt-get -y install \
     locales \
