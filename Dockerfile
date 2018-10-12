@@ -11,21 +11,21 @@ RUN true && tmp=$(mktemp) && \
     repo=multilib /etc/pacman.conf >$tmp && \
     cp /etc/pacman.conf{,.bak} && \
     cat $tmp >/etc/pacman.conf && \
-    pacman -Sy
+    pacman --noconfirm -Sy
 
 USER user
 
 ENV WINEPREFIX=/home/user/.wine
 ENV WINEARCH=win32
 # install wine
-RUN sudo pacman -Sy wine winetricks xorg-server-xvfb && \
+RUN sudo pacman --noconfirm -Sy wine winetricks xorg-server-xvfb && \
     wine wineboot
 
 # install dotnet40
 RUN xvfb-run winetricks -q dotnet40
 
 # install wix
-RUN sudo pacman -Sy wget unzip && \
+RUN sudo pacman --noconfirm -Sy wget unzip && \
     mkdir /home/user/wix && cd /home/user/wix && \
     wget 'https://github.com/wixtoolset/wix3/releases/download/wix3111rtm/wix311-binaries.zip' \
         -O wix311-binaries.zip && \
