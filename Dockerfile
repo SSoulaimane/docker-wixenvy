@@ -6,11 +6,11 @@ ENV LANG=C.UTF-8
 USER root
 
 # enable multilib repo
-RUN tmp=$(mktemp) \
+RUN true && tmp=$(mktemp) && \
     awk 'BEGIN {u=0} {if ($0 ~ "^\\s*#*\\s*\\[") u=0; if (!u && $0 ~ "^\\s*#+\\s*" "\\[" repo "\\]") u=1; if (u && $0 ~ "^\\s*#+\\s*(\\[|[^\\s]+\\s*=)") sub("^\\s*#+\\s*", ""); print; }' \
     repo=multilib /etc/pacman.conf >$tmp && \
-    mv /etc/pacman.conf{,.bak} && \
-    mv $tmp /etc/pacman.conf && \
+    cp /etc/pacman.conf{,.bak} && \
+    cat $tmp >/etc/pacman.conf && \
     pacman -Sy
 
 USER user
