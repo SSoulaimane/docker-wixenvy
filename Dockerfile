@@ -17,12 +17,10 @@ USER user
 
 ENV WINEPREFIX=/home/user/.wine
 ENV WINEARCH=win32
-# install wine
+# install wine and dotnet40
 RUN sudo pacman --noconfirm -Sy wine winetricks xorg-server-xvfb && \
-    wine wineboot
-
-# install dotnet40
-RUN xvfb-run winetricks -q dotnet40
+    xvfb-run wine wineboot && \
+    xvfb-run winetricks -q dotnet40
 
 # install wix
 RUN sudo pacman --noconfirm -Sy wget unzip && \
